@@ -35,6 +35,7 @@ namespace ETL_Processor.Model
 
         [Name("tip_amount")]
         public decimal TipAmount { get; set; }
+
     }
-       
+
 }

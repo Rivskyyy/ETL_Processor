@@ -15,30 +15,45 @@ namespace ETL_Processor.Services
                 recordList.Add(record);
             }
 
-            return recordList.GroupBy(r => new { r.PickupDateTime, r.DropoffDateTime, r.PassengerCount })
-                             .Select(g => g.First());
+            var uniqueRecords = recordList
+         .DistinctBy(r => Tuple.Create(r.PickupDateTime, r.DropoffDateTime, r.PassengerCount))
+         .ToList();
+
+            return uniqueRecords;
+
         }
-        public async Task<IEnumerable<Record>> GetDuplicatesAsync(IAsyncEnumerable<Record> transformedRecords, IEnumerable<Record> recordsWithoutDuplicates)
+        public async Task<IEnumerable<Record>> GetDuplicatesAsync(
+          IAsyncEnumerable<Record> transformedRecords,
+          IEnumerable<Record> recordsWithoutDuplicates)
         {
             var transformedList = new List<Record>();
-            var duplicatesList = new List<Record>();
-
-   
             await foreach (var record in transformedRecords)
             {
                 transformedList.Add(record);
             }
 
-            foreach (var record in recordsWithoutDuplicates)
+            var seenSet = new HashSet<Tuple<DateTime, DateTime, int?>>();
+            var duplicatesList = new List<Record>();
+
+            foreach (var record in transformedList)
             {
-                if (transformedList.Contains(record))
+                var recordKey = Tuple.Create(record.PickupDateTime, record.DropoffDateTime, record.PassengerCount);
+
+           
+                if (seenSet.Contains(recordKey))
                 {
                     duplicatesList.Add(record);
                 }
+                else
+                {
+                    seenSet.Add(recordKey); 
+                }
             }
 
+            Console.WriteLine($"Total duplicates found: {duplicatesList.Count}");
             return duplicatesList;
         }
+
         public async Task WriteDuplicatesToCsvAsync(IEnumerable<Record> duplicates, string filePath)
         {
             using (var writer = new StreamWriter(filePath))

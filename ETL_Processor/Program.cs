@@ -27,6 +27,8 @@ namespace ETL_Processor
             var transformedRecords = transformService.TransformDataAsync(records);
             var recordsWithoutDuplicates = await duplicatesRemoveService.RemoveDuplicatesAsync(transformedRecords);
 
+            Console.WriteLine($"Total records after removing duplicates: {recordsWithoutDuplicates.Count()}");
+
             Console.WriteLine("Loading data into the database...");
             await loadingService.LoadDataAsync(recordsWithoutDuplicates);
 

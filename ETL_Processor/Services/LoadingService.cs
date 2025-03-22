@@ -52,7 +52,6 @@ namespace ETL_Processor.Services
                 }
 
                 await bulkCopy.WriteToServerAsync(dataTable);
-
                 transaction.Commit();
             }
             catch (Exception ex)
