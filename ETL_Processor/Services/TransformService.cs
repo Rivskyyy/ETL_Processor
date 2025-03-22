@@ -11,12 +11,12 @@ namespace ETL_Processor.Services
 {
     public class TransformService
     {
-        public IEnumerable<Record> TransformData(IEnumerable<Record> records)
+        public async IAsyncEnumerable<Record> TransformDataAsync(IAsyncEnumerable<Record> records)
         {
             var tzdb = DateTimeZoneProviders.Tzdb;
             var estZone = tzdb["America/New_York"];
 
-            foreach (var record in records)
+            await foreach (var record in records)
             {
                 record.StoreAndFwdFlag = record.StoreAndFwdFlag?.Trim();
                 record.StoreAndFwdFlag = record.StoreAndFwdFlag == "Y" ? "Yes" :
