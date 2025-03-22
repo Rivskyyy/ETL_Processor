@@ -5,17 +5,18 @@ namespace ETL_Processor
 {
     internal class Program
     {
-        private static readonly string CSV_FILE_PATH = "RawData/sample-cab-data.csv";
-        private static readonly string CSV_FILE_DUPLICATES_PATH = "Duplicates/duplicates.csv";
+        private const string CSV_FILE_PATH = "RawData/sample-cab-data.csv";
+        private const string CSV_FILE_DUPLICATES_PATH = "Duplicates/duplicates.csv";
+       
         static async Task Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddUserSecrets<Program>()
             .Build();
 
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-
             var extractionService = new ExtractionService();
             var transformService = new TransformService();
             var duplicatesRemoveService = new DuplicatesRemoveService();
