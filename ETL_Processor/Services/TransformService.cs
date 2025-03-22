@@ -1,11 +1,5 @@
 ﻿using ETL_Processor.Model;
 using NodaTime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ETL_Processor.Services
 {

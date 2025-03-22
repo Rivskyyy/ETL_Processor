@@ -1,11 +1,6 @@
 ﻿using ETL_Processor.Model;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ETL_Processor.Services
 {
@@ -21,7 +16,7 @@ namespace ETL_Processor.Services
         public async Task LoadDataAsync(IEnumerable<Record> records)
         {
             using var connection = new SqlConnection(_connectionString);
-            await connection.OpenAsync().ConfigureAwait(false);
+            await connection.OpenAsync();
 
             using var transaction = connection.BeginTransaction();
 
