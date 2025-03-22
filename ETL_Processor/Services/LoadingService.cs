@@ -51,7 +51,7 @@ namespace ETL_Processor.Services
                     );
                 }
 
-                await bulkCopy.WriteToServerAsync(dataTable).ConfigureAwait(false);
+                await bulkCopy.WriteToServerAsync(dataTable);
 
                 transaction.Commit();
             }
