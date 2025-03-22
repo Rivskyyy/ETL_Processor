@@ -1,22 +1,17 @@
 ﻿using ETL_Processor.Model;
 using NodaTime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ETL_Processor.Services
 {
     public class TransformService
     {
-        public IEnumerable<Record> TransformData(IEnumerable<Record> records)
+        public async IAsyncEnumerable<Record> TransformDataAsync(IAsyncEnumerable<Record> records)
         {
             var tzdb = DateTimeZoneProviders.Tzdb;
             var estZone = tzdb["America/New_York"];
 
-            foreach (var record in records)
+            await foreach (var record in records)
             {
                 record.StoreAndFwdFlag = record.StoreAndFwdFlag?.Trim();
                 record.StoreAndFwdFlag = record.StoreAndFwdFlag == "Y" ? "Yes" :
