@@ -19,13 +19,4 @@
     <PackageReference Include="NodaTime" Version="3.2.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Duplicates\duplicates.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="RawData\sample-cab-data.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
